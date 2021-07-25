@@ -1,0 +1,34 @@
+{
+  "name": "chronos",
+  "version": "1.0.0",
+  "description": "Node + Express + Sequelize + Postgre",
+  "main": "api/src/server.js",
+  "scripts": {
+    "start": "node api/src/server",
+    "server": "nodemon api/src/server",
+    "app": "npm run start --prefix app",
+    "app:install": "npm install --prefix app",
+    "app:build": "npm run build --prefix app",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run app\""
+  },
+  "author": "yhradov",
+  "license": "MIT",
+  "dependencies": {
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^6.2.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
