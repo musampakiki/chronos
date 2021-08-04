@@ -12,6 +12,8 @@ import tasksReducer from "./tasksReducer";
 import history from "./history";
 import colorReducer from "./colorReducer";
 import colorsReducer from "./colorsReducer";
+import calendarReducer from "./calendarReducer";
+import serviceChangeReducer from "./serviceChangeReducer";
 
 
 export default combineReducers({
@@ -26,6 +28,8 @@ export default combineReducers({
   history,
   colorReducer,
   colorsReducer,
+  calendarState: calendarReducer,
+  eventState: serviceChangeReducer,
 });
 
 

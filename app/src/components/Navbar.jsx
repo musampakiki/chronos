@@ -6,9 +6,9 @@ import Search from "./Search";
 import Avatar from "../styles/Avatar";
 import { openSidebar, closeSidebar } from "../reducers/sidebar";
 import {logout} from "../reducers/user";
-import { Notifications, Menu, ExitToApp, ControlPoint } from '@material-ui/icons';
+import { Notifications, Menu, ExitToApp } from '@material-ui/icons';
 import EditProfileModal from "./EditProfileModal";
-
+import NewEventButton from "../components/NewEventButton";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -118,11 +118,17 @@ const Navbar = () => {
 
       <Search />
       <ul>
-        <li>
+        {/*<li>
           <Link to="/new_task">
             <ControlPoint />
           </Link>
+        </li>*/}
+        <li>
+          <NewEventButton />
         </li>
+
+
+
         <li>
           <Notifications />
         </li>

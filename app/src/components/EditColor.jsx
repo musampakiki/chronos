@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { client } from "../utils/index";
@@ -6,7 +6,8 @@ import Button from "../styles/Button";
 import { toast } from "react-toastify";
 import useInput from "../hooks/useInput";
 import {Link, useParams} from "react-router-dom";
-import {getColor, updateColorId, clearColor} from "../reducers/colorReducer";
+import {updateColorId} from "../reducers/colorReducer";
+// import {createAsyncThunk} from "@reduxjs/toolkit";
 
 const openModal = keyframes`
 	from {
@@ -32,7 +33,7 @@ const Wrapper = styled.div`
     border-radius: 4px;
     background: ${(props) => props.theme.grey};
     margin: 36px auto;
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4), 0px 0px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.4), 0 0 4px rgba(0, 0, 0, 0.25);
   }
 
   .edit-profile img {
@@ -150,23 +151,17 @@ const EditColor = () => {
         client(`${process.env.REACT_APP_BE}/colors/${colorId}`, {
             body: updates,
             method: "PUT",
-        });
+        })
+        
+        toast.dark("Color updated")
 
-
-        toast.dark("Color updated");
 
     };
-
-
-
-
-
-
 
     return (
 
         <Wrapper>
-            <div className="container"></div>
+
             <div className="edit-profile">
                 <div className="modal-header">
                     <h3>

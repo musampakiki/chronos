@@ -135,7 +135,7 @@ const ColorId = () => {
     const { isFetching: colorFetching, data: color } = useSelector(
         (state) => state.colorReducer
     );
-    const { isFetching: colorsFetching, colors: next } = useSelector(
+    const { isFetching: colorsFetching} = useSelector(
         (state) => state.colorsReducer
     );
 

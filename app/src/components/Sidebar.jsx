@@ -14,7 +14,7 @@ import { Home, Today, DateRange, FilterList } from '@material-ui/icons';
 // // PostIcon,
 // } from "./Icons";
 import { closeSidebar } from "../reducers/sidebar";
-import Colors from "./Colors"
+// import Colors from "./Colors"
 
 const SidebarWrapper = styled.div`
   position: fixed;

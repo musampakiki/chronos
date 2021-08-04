@@ -1,124 +1,86 @@
-import React from "react";
-import moment from "moment";
-import styled from 'styled-components';
-
-import {Link} from "react-router-dom";
-import {ControlPoint} from "@material-ui/icons";
-
-
-
-const GridWrapper = styled.div`
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-  //grid-template-rows: repeat(6, 1fr);
-  grid-gap: 1px;
-  background-color: ${props => props.isHeader ? '#141518' : '#4D4C4D'};
-  ${props => props.isHeader && 'border-bottom: 1px solid #4D4C4D' };
-`;
-
-const CellWrapper = styled.div`
-	min-height: ${props => props.isHeader ? '20px' : '70px'};
-	min-width: 140px;
-    background-color: ${props => props.isWeekday ? '#2d2d35' : props => props.isCurrentDay ? '#0b1629' : '#141518'};
-	box-shadow: ${props => props.isCurrentDay ? '0 0 8px #03318d' : 'none'};
-	color: ${props => props.isWeekday ? '#2d2d35' : props => props.isCurrentDay ? '#0b1629' : props => props.isHeader ? '#ffffff' : '#141518'};
-	
-`;
-
-const RowInCell = styled.div`
-	display: flex;
-	justify-content: ${props => props.justifyContent ? props.justifyContent : 'flex-start'};
-	${props => props.pr && `padding-right: ${props.pr * 10}px`}
-`;
-
-const DayWrapper = styled.div`
-	height: 31px;
-	width: 31px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px;
-  color: #666;
-;`
-
-const CurrentDay = styled.div`
-  height: 100%;
-  width: 100%;
-  background: #f00;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-`;
-const SelectedMonthDay = styled.div`
-	height: 31px;
-	width: 31px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px;
-  color: #fff;
-;`
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import Day from "./Day";
+import DayDetail from "./DayDetail";
+import NewEventSidebar from "./NewEventSidebar";
+import ButtonsCalendar from "./ButtonsCalendar";
 
 
-const TaskControl = styled.div`
-   margin:20px 25px;
-   &:hover {
-    ${ControlPoint} {
-      color: #ffffff;
-    }
-`;
+import { getCurrentDateDispatch, getEventsFromLS } from "../actions/actionCreatorsDispatch"
+import moment from 'moment';
+import {getTasks} from "../reducers/tasksReducer";
 
+const Calendar = () => {
+  const body = document.getElementsByTagName("body");
+  const dispatch = useDispatch();
+  const calendarContext = useSelector(state => state.calendarState);
+  const tasks = useSelector(state => state.tasksReducer);
+  console.log(tasks)
 
-const CalendarGrid = ({startDay}) => {
-    const totalDays = 42;
-    const day = startDay.clone().subtract(1, 'day');
-    const daysMap = [...Array(totalDays)].map(() => day.add(1, 'day').clone())
+  const {
+    currentMonth,
+    currentYear,
+    days,
+    detailSidebarToggled,
+    eventsSidebarToggled,
+    newEventSidebarToggled,
+    editEventSidebarToggled,
+  } = calendarContext;
 
 
 
-    const isCurrentDay = (day) => moment().isSame(day, 'day');
-    const isSelectedMonth = (day) => moment().isSame(day, 'month');
-    console.log('Looking days',day )
-    return (
-        <>
-            <GridWrapper isHeader>
-                {[...Array(7)].map((value, index, array) => (<CellWrapper isHeader>
-                    <RowInCell justifyContent={'flex-end'} pr={1}>
-                        {moment().day(index+1).format('ddd')}
-                    </RowInCell>
-                </CellWrapper>))}
-            </GridWrapper>
-            <GridWrapper>
-            {
-                daysMap.map((dayItem) => (
-                    <CellWrapper
-                        isWeekday={dayItem.day() === 6 || dayItem.day() === 0}
-                        isCurrentDay = {isCurrentDay(dayItem)}
-                        key={dayItem.unix()}
-                        isSelectedMonth={isSelectedMonth(dayItem)}
-                    >
-                        <RowInCell justifyContent={'flex-end'}>
+  useEffect(() => {
+    dispatch(getCurrentDateDispatch(moment().year(), moment().month() + 1, moment().date()));
+    dispatch(getEventsFromLS());
+    dispatch(getTasks());
+  }, [dispatch]);
 
-                            <Link to="/new_task">
-                                <TaskControl>
-                                           <ControlPoint />
-                               </TaskControl>
-                            </Link>
-                            <DayWrapper >
-                                {!isCurrentDay(dayItem) && !isSelectedMonth(dayItem) && dayItem.format('D')}
-                                {isCurrentDay(dayItem) && <CurrentDay>{dayItem.format('D')}</CurrentDay>}
-                                {isSelectedMonth(dayItem) && !isCurrentDay(dayItem) && <SelectedMonthDay>{dayItem.format('D')}</SelectedMonthDay>}
-                            </DayWrapper>
+  if (
+    detailSidebarToggled ||
+    eventsSidebarToggled ||
+    newEventSidebarToggled ||
+    editEventSidebarToggled
+  ) {
+    body[0].style.overflowY = "hidden";
+  } else {
+    body[0].style.overflowY = "visible";
+  }
 
-                        </RowInCell>
-                    </CellWrapper>
-                ))
-            }
-        </GridWrapper>
-        </>
-    );
+  return (
+    <div className="calendar">
+      <div className="title">
+        {moment.months(currentMonth - 1)} {currentYear}{" "}
+        <ButtonsCalendar />
+      </div>
+      <div className="calendar-table">
+        <div className="thead">
+          <div>Monday</div>
+          <div>Tuesday</div>
+          <div>Wednesday</div>
+          <div>Thursday</div>
+          <div>Friday</div>
+          <div>Saturday</div>
+          <div>Sunday</div>
+        </div>
+        <div className="thead-sm">
+          <div>M</div>
+          <div>T</div>
+          <div>W</div>
+          <div>Th</div>
+          <div>F</div>
+          <div>St</div>
+          <div>S</div>
+        </div>
+        <div className="tbody">
+          {days.map((day, index) => (
+            <Day key={index} day={day} />
+          ))}
+        </div>
+      </div>
+      <DayDetail />
+      <NewEventSidebar />
+    </div>
+  );
 };
 
-export { CalendarGrid };
+export default Calendar;

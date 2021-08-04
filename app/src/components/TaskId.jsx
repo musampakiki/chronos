@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import {Close, Edit} from "@material-ui/icons";
 import NoResults from "../components/NoResults";
@@ -26,9 +26,8 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 70% 1fr;
   grid-gap: 2rem;
-  padding: 1.3rem;
-  padding-bottom: 7rem;
-
+  padding: 7rem 1.3rem;
+  
   .article-container .article-info {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -77,32 +76,11 @@ const Wrapper = styled.div`
   .related-articles div {
     margin-bottom: 1rem;
   }
-
-  svg {
-    fill: ${(props) => props.theme.darkGrey};
-  }
-
-  ${(props) =>
-    props.filledLike &&
-    css`
-      .like svg {
-        fill: ${(props) => props.theme.blue};
-      }
-    `}
-
-  ${(props) =>
-    props.filledDislike &&
-    css`
-      .dislike svg {
-        fill: ${(props) => props.theme.blue};
-      }
-    `}
-
 	@media screen and (max-width: 930px) {
+  .related-articles {
+    display: none;
+  }
     grid-template-columns: 90%;
-    .related-articles {
-      display: none;
-    }
   }
 
   @media screen and (max-width: 930px) {
@@ -113,6 +91,9 @@ const Wrapper = styled.div`
     .article-info-stats div {
       margin-left: 1rem;
     }
+  }
+  svg {
+    fill: ${(props) => props.theme.darkGrey};
   }
 `;
 
@@ -135,7 +116,7 @@ const TaskId = () => {
     const { isFetching: taskFetching, data: task } = useSelector(
         (state) => state.taskReducer
     );
-    const { isFetching: tasksFetching, tasks: next } = useSelector(
+    const { isFetching: tasksFetching } = useSelector(
         (state) => state.tasksReducer
     );
 

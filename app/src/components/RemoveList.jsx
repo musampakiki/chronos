@@ -115,7 +115,7 @@ const DeleteList = () => {
     const defaultLists = []
 
 
-    const [lists, updateLists] = useState(defaultLists);
+    const [updateLists] = useState(defaultLists);
 
 
 

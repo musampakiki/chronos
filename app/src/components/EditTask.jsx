@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { client } from "../utils/index";
@@ -6,7 +6,7 @@ import Button from "../styles/Button";
 import { toast } from "react-toastify";
 import useInput from "../hooks/useInput";
 import {Link, useParams} from "react-router-dom";
-import {getTask, updateTaskId, clearTask} from "../reducers/taskReducer";
+import {updateTaskId} from "../reducers/taskReducer";
 
 const openModal = keyframes`
 	from {
@@ -32,7 +32,7 @@ const Wrapper = styled.div`
     border-radius: 4px;
     background: ${(props) => props.theme.grey};
     margin: 36px auto;
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4), 0px 0px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.4), 0 0 4px rgba(0, 0, 0, 0.25);
   }
 
   .edit-profile img {
@@ -107,7 +107,7 @@ const EditTask = () => {
 
     // console.log('Смотрим useParam colorId',  colorId,  'смотрим дальше')
 
-    const { isFetching: taskFetching, data: task } = useSelector(
+    const { data: task } = useSelector(
         (state) => state.taskReducer
     );
 
@@ -167,15 +167,9 @@ const EditTask = () => {
     };
 
 
-
-
-
-
-
     return (
 
         <Wrapper>
-            <div className="container"></div>
             <div className="edit-profile">
                 <div className="modal-header">
                     <h3>
@@ -205,7 +199,6 @@ const EditTask = () => {
                         onChange={description.onChange}
                     />
                     <textarea
-                        type="text"
                         placeholder="text"
                         value={text.value}
                         onChange={text.onChange}

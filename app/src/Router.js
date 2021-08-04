@@ -17,6 +17,7 @@ import Container from "./styles/Container";
 
 
 // pages
+// import HomeDark from "./pages/HomeDark";
 import Home from "./pages/Home";
 // import SearchResults from "./pages/SearchResults";
 import Colors from "./components/Colors";

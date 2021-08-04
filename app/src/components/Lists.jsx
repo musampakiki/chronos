@@ -9,7 +9,7 @@ import AddList from "./AddList";
 
 
 import styled from "styled-components";
-import Skeleton from "../skeletons/HomeSkeleton";
+// import Skeleton from "../skeletons/HomeSkeleton";
 import VideoGrid from "../styles/ArticleGrid";
 
 

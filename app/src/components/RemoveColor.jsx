@@ -115,7 +115,7 @@ const DeleteColor = () => {
     const defaultColors = []
 
 
-    const [colors, updateColors] = useState(defaultColors);
+    const [updateColors] = useState(defaultColors);
 
 
 

@@ -13,12 +13,12 @@ import {Link} from "react-router-dom";
 
 //multiselect
 import {getLists} from "../reducers/listsReducer";
-import {getList} from "../reducers/listReducer";
+// import {getList} from "../reducers/listReducer";
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {getColors} from "../reducers/colorsReducer";
+// import {getColors} from "../reducers/colorsReducer";
 
 import TextField from '@material-ui/core/TextField';
 
@@ -76,7 +76,7 @@ const Wrapper = styled.div`
     border-radius: 4px;
     background: ${(props) => props.theme.grey};
     margin: 36px auto;
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4), 0px 0px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.4), 0 0 4px rgba(0, 0, 0, 0.25);
   }
 
   .edit-profile img {
@@ -151,9 +151,9 @@ const AddTask= () => {
     const dispatch = useDispatch();
 
     //multiselect
-    const { data: list } = useSelector(
+   /* const { data: list } = useSelector(
         (state) => state.listReducer
-    );
+    );*/
     const { lists } = useSelector(
         (state) => state.listsReducer
     );
@@ -168,7 +168,7 @@ const AddTask= () => {
     const title = useInput("");
     const description = useInput("");
     const text = useInput("");
-    const completed = useInput("");
+    // const completed = useInput("");
     const dataCreated = useInput("");
     const dataEnd = useInput("");
     const listId = useInput("");
@@ -247,7 +247,6 @@ const AddTask= () => {
                         onChange={description.onChange}
                     />
                     <textarea
-                        type="text"
                         placeholder="text"
                         value={text.value}
                         onChange={text.onChange}

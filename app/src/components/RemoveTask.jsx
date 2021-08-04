@@ -115,7 +115,7 @@ const DeleteTask = () => {
     const defaultTasks = []
 
 
-    const [tasks, updateTasks] = useState(defaultTasks);
+    const [updateTasks] = useState(defaultTasks);
 
 
 

@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 // import ArrayColor from "./ArrayColor"
 //multiselect
 import {getColors} from "../reducers/colorsReducer";
-import {getColor} from "../reducers/colorReducer";
+// import {getColor} from "../reducers/colorReducer";
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
