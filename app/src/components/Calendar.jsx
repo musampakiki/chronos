@@ -15,7 +15,6 @@ const Calendar = () => {
   const dispatch = useDispatch();
   const calendarContext = useSelector(state => state.calendarState);
   const tasks = useSelector(state => state.tasksReducer);
-  console.log(tasks)
 
   const {
     currentMonth,
@@ -26,7 +25,6 @@ const Calendar = () => {
     newEventSidebarToggled,
     editEventSidebarToggled,
   } = calendarContext;
-
 
 
   useEffect(() => {

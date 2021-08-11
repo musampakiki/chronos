@@ -8,6 +8,7 @@ import useInput from "../hooks/useInput";
 import { updateUser } from "../reducers/user";
 import { updateProfile } from "../reducers/profile";
 import { client, updateUserLocalSt, upload } from "../utils";
+import {useParams} from "react-router-dom";
 
 const openModal = keyframes`
 	from {
@@ -37,8 +38,13 @@ const Wrapper = styled.div`
   .edit-profile img {
     object-fit: cover;
   }
+  .avatar-upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem 2rem;
+  }
   .avatar {
-    margin-top: -40px;
     margin-left: 20px;
   }
   div.modal-header {
@@ -57,7 +63,7 @@ const Wrapper = styled.div`
   }
   input,
   textarea {
-    width: 100%;
+    width: 300px;
     background: ${(props) => props.theme.black};
     border: 1px solid ${(props) => props.theme.black};
     margin-bottom: 1rem;
@@ -88,36 +94,33 @@ const Wrapper = styled.div`
 `;
 
 const EditProfileModal = ({ closeModal }) => {
+  const { userId } = useParams();
   const dispatch = useDispatch();
-  const { data: profile } = useSelector((state) => state.profile);
+  const { data: user } = useSelector((state) => state.user);
 
-  const firstname = useInput(profile.firstname);
-  const lastname = useInput(profile.lastname);
-  const channelDesc = useInput(profile.channelDescription || "");
+  const firstname = useInput(user.firstname);
+  const lastname = useInput(user.lastname);
+  const email = useInput(user.email);
+  const channelDesc = useInput(user.channelDescription || "");
 
   // uploaded avatar, cover
-  const [cover, setCover] = useState("");
+
   const [avatar, setAvatar] = useState("");
 
   // handlers for image upload
-  const handleCoverUpload = async (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      setCover(await upload("image", file));
-    }
-  };
-
   const handleAvatarUpload = async (e) => {
     const file = e.target.files[0];
-
     if (file) {
       setAvatar(await upload("image", file));
     }
   };
 
   const handleEditProfile = () => {
-    if (!firstname.value.trim()) {
+    if (!avatar.value.trim() ||
+        !firstname.value.trim() ||
+        !lastname.value.trim() ||
+        !channelDesc.value.trim())
+    {
       return toast.error("firstname should not be empty");
     }
 
@@ -126,19 +129,21 @@ const EditProfileModal = ({ closeModal }) => {
     }
 
     const data = {
+      avatar : avatar.value,
       firstname: firstname.value,
       lastname: lastname.value,
+      email: email.value,
+      channelDescription: channelDesc.value,
     };
 
-    if (avatar) data.avatar = avatar;
-    if (cover) data.cover = cover;
+    // if (avatar) data.avatar = avatar;
+    // if (cover) data.cover = cover;
 
-    const updates = { ...data, channelDescription: channelDesc.value };
-
+    const updates = { ...data };
     dispatch(updateProfile(updates));
-
     dispatch(updateUser(updates));
-    client(`${process.env.REACT_APP_BE}/users`, {
+
+    client(`${process.env.REACT_APP_BE}/users/${userId}`, {
       body: updates,
       method: "PUT",
     });
@@ -159,31 +164,14 @@ const EditProfileModal = ({ closeModal }) => {
             </h3>
             <Button onClick={handleEditProfile}>Save</Button>
           </div>
+
+
            <div>
-
-               <div className="cover-upload-container">
-            <label htmlFor="cover-upload">
-              <img
-                  className="pointer"
-                  width="100%"
-                  height="200px"
-                  src={cover ? cover : profile.cover}
-                  alt="cover"
-              />
-            </label>
-            <input
-                id="cover-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleCoverUpload}
-                style={{ display: "none" }}
-            />
-          </div>
-
                <div className="avatar-upload-icon">
+                 <h3>Avatar :</h3>
             <label htmlFor="avatar-upload">
               <img
-                  src={avatar ? avatar : profile.avatar}
+                  src={avatar ? avatar : user.avatar}
                   className="pointer avatar lg"
                   alt="avatar"
               />
@@ -210,6 +198,13 @@ const EditProfileModal = ({ closeModal }) => {
                 value={lastname.value}
                 onChange={lastname.onChange}
             />
+            <input
+                type="text"
+                placeholder="lastname"
+                value={email.value}
+                onChange={email.onChange}
+            />
+
             <textarea
                 type="text"
                 placeholder="Tell viewers about your channel"

@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import Button from "../styles/Button";
 import TaskCard from "./TaskCard";
 import {getTasks} from "../reducers/tasksReducer";
-import AddTask from "./AddTask";
+import {toast} from "react-toastify";
 import styled from "styled-components";
+import VideoGrid from "../styles/ArticleGrid";
 
 export const StyledHome = styled.div`
   padding: 1.3rem;
   width: 90%;
   margin: 0 auto;
-  padding-bottom: 7rem;
   h2 {
     margin-bottom: 1rem;
   }
@@ -50,8 +50,8 @@ const Tasks = () => {
 
     // console.log("looking listId", isFetching, lists, "end looking")
 
-    const [showModal, setShowModal] = useState(false);
-    const closeModal = () => setShowModal(false);
+    // const [showModal, setShowModal] = useState(false);
+    // const closeModal = () => setShowModal(false);
 
 
     useEffect(() => {
@@ -59,6 +59,10 @@ const Tasks = () => {
     }, [dispatch]);
 
     // console.log("looking listId", lists, "end looking")
+
+    if(isFetching){
+        return toast.error("username undefined, please refresh page");
+    }
 
 
     return (
@@ -68,21 +72,22 @@ const Tasks = () => {
                 <Link className="item-header" to="/">
                     <Button grey>RETURN</Button>
                 </Link>
-                <Link className="item-header" to="/tasks/add-task">
+               {/* <Link className="item-header" to="/tasks/add-task">
                     <Button className="home-header" onClick={() => setShowModal(true)}>
                         ADD TASK
                     </Button>
-                </Link>
+                </Link>*/}
             </div>
+            <VideoGrid>
             {!isFetching &&
             tasks.map((task) => (
                 <Link key={task.id} to={`/tasks/${task.id}`}>
                     <TaskCard task={task}/>
                 </Link>
             ))}
+            </VideoGrid>
 
-
-            {showModal && <AddTask closeModal={closeModal}/>}
+            {/*{showModal && <AddTask closeModal={closeModal}/>}*/}
         </StyledHome>
     );
 

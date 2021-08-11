@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 import { toast } from "react-toastify";
 import { CloseIcon } from "./Icons";
 import Button from "../styles/Button";
 import useInput from "../hooks/useInput";
+// import { client, updateUserLocalSt, upload } from "../utils";
 // import { addColor } from "../reducers/colorReducer";
 import {addToColors} from "../reducers/colorsReducer";
 

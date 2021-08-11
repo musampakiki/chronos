@@ -1,18 +1,17 @@
 import React from "react";
-// import Tasks from "./Tasks"
 import moment from "moment";
-
 import cx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-// import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-// import Button from '@material-ui/core/Button';
 import TextInfoContent from '@mui-treasury/components/content/textInfo';
 import { useBlogTextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/blog';
 import { useOverShadowStyles } from '@mui-treasury/styles/shadow/over';
 import {timeSince} from "../utils";
 import Avatar from "../styles/Avatar";
+import {toast} from "react-toastify";
+import {useDispatch, useSelector} from "react-redux";
+
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
     root: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
         transition: '0.3s',
         boxShadow: '0 0 5px rgba(80, 120, 250, 1)',
         position: 'relative',
-        maxWidth: 500,
+        maxWidth: 400,
         marginLeft: 'auto',
         overflow: 'initial',
         backgroundColor: 'rgba(220,220,220, 0.9)',
@@ -37,16 +36,19 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
     foo: props => ({
         // backgroundColor: props.backgroundColor,
         boxShadow: '0 0 5px rgba(80, 120, 250, 1)',
+        position: 'absolute',
+        display:'flex',
+        alignItems: "center",
+        paddingLeft: 10,
         width: 200,
-        marginRight: spacing(2),
-        height: 0,
-        paddingBottom: '55%',
+        height: 100,
+        right:10,
+        top:20,
         borderRadius: spacing(2),
-        position: 'relative',
-        textAlign: 'center',
         '& span' :{
             fontSize: spacing(3),
             lineHeight: spacing(1),
+            paddingLeft: 5,
 
         },
         '&:after': {
@@ -112,18 +114,33 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 
 
 const TaskCard = ({ nousername, hideavatar, task }) => {
+    const dispatch = useDispatch();
+    const { isFetching, tasks } = useSelector((state) => state.tasksReducer);
+
     const styles = useStyles();
     const {
         button: buttonStyles,
         ...contentStyles
     } = useBlogTextInfoContentStyles();
     const shadowStyles = useOverShadowStyles();
-    const props = { backgroundColor: `${task.Color?.hex}`}
+
+
+
+
+    const props = { backgroundColor: `${task.List?.colorId}`}
     console.log('смотрим пропс',props)
     const classes = useStyles(props);
 
 
-
+if(nousername) {
+   return toast.error("no user name");
+}
+    if(hideavatar) {
+        return toast.error("hide avatar");
+    }
+    if(isFetching && task.User.avatar === undefined){
+        return toast.error("username undefined, please refresh page");
+    }
 
 
     return (
@@ -137,7 +154,7 @@ const TaskCard = ({ nousername, hideavatar, task }) => {
                     classes={contentStyles}
                     // overline={Date}
                     heading={task.title}
-                    body={task.description}
+                    body={`description: ${task.description}`}
                 />
                 <div className={classes.flexText}>
                              <div className={`${classes.foo}`}>list name: <span>{task.List?.name}</span></div>
@@ -148,7 +165,7 @@ const TaskCard = ({ nousername, hideavatar, task }) => {
                               <p><span>date end:</span> {`${moment(task.dataEnd).format('DD-MMM-yyyy, h:mm a')}`}</p>
                     </div>
                 </div>
-                    <div className={classes.avatar}>
+                   {/* <div className={classes.avatar}>
                         <div>
                             {!hideavatar && (
                                 <Avatar className={classes.avatarImg}
@@ -162,7 +179,8 @@ const TaskCard = ({ nousername, hideavatar, task }) => {
                         {!nousername && (
                             <span className={classes.avatarName}>{task.User.username}</span>
                         )}
-                    </div>
+                    </div>*/}
+
 
 
 

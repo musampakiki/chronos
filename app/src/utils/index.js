@@ -25,14 +25,25 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     config.headers.authorization = `Bearer ${user.token}`;
   }
 
-  const res = await fetch(endpoint, config);
+
+  const res =  await fetch(endpoint, config)
+  {
+    if (res.status === 200) {
+      await fetch(endpoint, config)
+    } else {
+      localStorage.removeItem("user");
+      window.location = "/";
+    }
+  }
+
+
+
   const data = await res.json();
 
   if (res.status !== 200) {
     return toast(data.message);
   }
-
-  return data;
+  return data
 };
 
 export const timeSince = (timestamp) => {
@@ -73,25 +84,25 @@ export const upload = async (resourceType, file) => {
   formData.append("file", file);
 
   let toastId = null;
-  const config = {
-    onUploadProgress: (p) => {
-      const progress = p.loaded / p.total;
-      if (toastId === null) {
-        toastId = toast("Upload in Progress", {
-          progress,
-        });
-      } else {
-        toast.update(toastId, {
-          progress,
-        });
-      }
-    },
-  };
+  // const config = {
+  // onUploadProgress: (p) => {
+  //     const progress = p.loaded / p.total;
+  //     if (toastId === null) {
+  //       toastId = toast("Upload in Progress", {
+  //         progress,
+  //       });
+  //     } else {
+  //       toast.update(toastId, {
+  //         progress,
+  //       });
+  //     }
+  //   },
+  // };
 
   const { data } = await axios.post(
       `${process.env.REACT_APP_BE}/${resourceType}/upload`,
       formData,
-      config
+      // config
   );
 
   toast.dismiss(toastId);
@@ -99,27 +110,24 @@ export const upload = async (resourceType, file) => {
   return data;
 };
 
+
 export const authenticate = async (type, data) => {
-  // const backendUrl = process.env.REACT_APP_BE;
 
   try {
-    // const { data: token } = await client(`${backendUrl}auth/${type}`, {
-    //   body: data,
        const { data: token } = await client(`${process.env.REACT_APP_BE}/auth/${type}`, {
          body: data,
     });
     if (token) {
-      // const { data: user } = await client(`${backendUrl}auth/me`, { token });
+
       const { data: user } = await client(`${process.env.REACT_APP_BE}/auth/me`, { token });
-
       localStorage.setItem("user", JSON.stringify({ ...user, token }));
-
       return { ...user, token };
     }
   } catch (err) {
-    console.log(err);
+    console.log('error token', err);
   }
 };
+
 
 export const removeChannelLocalSt = (channelId) => {
   const user = JSON.parse(localStorage.getItem("user"));

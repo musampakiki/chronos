@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setDayDetailObj, addEventDate, toggleDetailSidebarObj, toggleEventsSidebarObj, toggleNewEventSidebarObj } from "../actions/actionCreatorsObj";
 import moment from 'moment'
-
+import { Link } from "react-router-dom";
 
 const Day = ({ day: { visible, dayOfMonth, date } }) => {
 
@@ -62,15 +62,15 @@ const Day = ({ day: { visible, dayOfMonth, date } }) => {
         {todayEvents.map((el, index) => (
           <span key={index} el={el}>
             {" "}
-              <div className={`${el.participants}`}>task for {el.participants}: {el.eventName}</div>
+              <div className={`${el.participants}`}>{el.participants}: {el.eventName}</div>
           </span>
         ))}
 
           {todayTasks.map((start, index) => (
-              <span key={index} el={start}>
+              <span key={index} el={start}><Link to={`/tasks/${start.id}`}>
             {" "}
-                  <div className={'task'}>{start.title}</div>
-          </span>
+                  <div className={'task'}>Task: {start.title}</div>
+              </Link></span>
           ))}
 
       </div>

@@ -29,7 +29,11 @@ const Login = ({ setAuth }) => {
     };
 
     dispatch(login({ payload, clearForm }));
+
+    toast.error("successful login");
   };
+
+
 
   return (
     <StyledAuth>
@@ -49,7 +53,7 @@ const Login = ({ setAuth }) => {
         />
         <div className="action input-group">
           <span className="pointer" onClick={() => setAuth("SIGNUP")}>
-            Signup instead
+            Signup 
           </span>
           <button>Login</button>
         </div>

@@ -97,7 +97,7 @@ const NewEventSidebar = () => {
         type="select"
         name="participants"
         className="new-event-sidebar__type"
-        options={['', 'Ivan', 'Julia', 'Dan', 'Michael']}
+        options={['', 'Birthday', 'Conference', 'Meeting', 'Meet']}
       />
 
       <label htmlFor="new-event-sidebar__reminder">Description</label>

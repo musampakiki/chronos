@@ -147,13 +147,9 @@ const Wrapper = styled.div`
 
 
 
-const AddTask= () => {
+const AddTask= ({ closeModal }) => {
     const dispatch = useDispatch();
 
-    //multiselect
-   /* const { data: list } = useSelector(
-        (state) => state.listReducer
-    );*/
     const { lists } = useSelector(
         (state) => state.listsReducer
     );
@@ -163,12 +159,11 @@ const AddTask= () => {
     }, [dispatch]);
 
     const classes = useStyles();
-//end multiselect
+
 
     const title = useInput("");
     const description = useInput("");
     const text = useInput("");
-    // const completed = useInput("");
     const dataCreated = useInput("");
     const dataEnd = useInput("");
     const listId = useInput("");
@@ -183,7 +178,6 @@ const AddTask= () => {
             if (!title.value.trim() ||
                 !description.value.trim() ||
                 !text.value.trim() ||
-                // !completed.value.trim() ||
                 !dataCreated.value.trim() ||
                 !dataEnd.value.trim()||
                 !listId.value.trim())
@@ -211,7 +205,9 @@ const AddTask= () => {
                     ...task,
                 })
             );
+            closeModal();
         }
+
     }
 
 
@@ -223,9 +219,9 @@ const AddTask= () => {
             <div className="edit-profile">
                 <div className="modal-header">
                     <h3>
-                        <Link to="/tasks">
-                            <CloseIcon />
-                        </Link>
+
+                        <CloseIcon onClick={() => closeModal()} />
+
                         <span>New Task</span>
                     </h3>
                     <Link to="/tasks">
@@ -281,22 +277,6 @@ const AddTask= () => {
                    />
                </form>
             </Date>
-
-
-
-
-            {/*<input*/}
-                    {/*    type="text"*/}
-                    {/*    placeholder="data start task"*/}
-                    {/*    value={dataCreated.value}*/}
-                    {/*    onChange={dataCreated.onChange}*/}
-                    {/*/>*/}
-                    {/*<input*/}
-                    {/*    type="text"*/}
-                    {/*    placeholder="data end task"*/}
-                    {/*    value={dataEnd.value}*/}
-                    {/*    onChange={dataEnd.onChange}*/}
-                    {/*/>*/}
                     <FormControl variant="filled" className={classes.formControl}>
                         <InputLabel htmlFor="filled-list-native-simple">List</InputLabel>
                         <Select
@@ -311,30 +291,9 @@ const AddTask= () => {
                             <option aria-label="None" value="" />
                             {lists.map((list) => (
                                 <option key={list.id} value={list.id}>{list.name}</option>))}
-
                         </Select>
                     </FormControl>
-
-
                 </form>
-                {/*<FormControl variant="outlined" className={classes.formControl}>*/}
-                {/*    <InputLabel htmlFor="outlined-age-native-simple">Colors</InputLabel>*/}
-                {/*    <Select*/}
-                {/*        native*/}
-                {/*        value={state.colorId}*/}
-                {/*        onChange={handleChange}*/}
-                {/*        label="Age"*/}
-                {/*        inputProps={{*/}
-                {/*            name: 'colorId',*/}
-                {/*            id: 'outlined-age-native-simple',*/}
-                {/*        }}*/}
-                {/*    >*/}
-                {/*        <option aria-label="None" value="" />*/}
-                {/*        <option  value={id}>{id}</option>*/}
-
-                {/*    </Select>*/}
-                {/*</FormControl>*/}
-
             </div>
 
         </Wrapper>

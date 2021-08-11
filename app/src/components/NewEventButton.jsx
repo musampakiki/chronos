@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeServiceField, clearEventField, addEventDate, toggleEventsSidebarObj, toggleNewEventSidebarObj, toggleDetailSidebarObj } from "../actions/actionCreatorsObj";
-import { ControlPoint } from '@material-ui/icons';
-
+// import { ControlPoint } from '@material-ui/icons';
+import Button from "../styles/Button";
 const NewEventButton = ({ date }) => {
 
   const calendarContext = useSelector(state => state.calendarState);
@@ -22,7 +22,7 @@ const NewEventButton = ({ date }) => {
   return (
     <nav className="navbar">
       <div className="button-group">
-        <button
+        <Button
           className="new-event-btn"
           onClick={() => {
             dispatch(toggleNewEventSidebarObj(!newEventSidebarToggled));
@@ -32,8 +32,8 @@ const NewEventButton = ({ date }) => {
             date ? dispatchEditEventDate() : dispatch(addEventDate(null))
           }}
         >
-          <ControlPoint/>New Task
-        </button>
+            NEW EVENT
+        </Button>
       </div>
     </nav>
   );

@@ -15,16 +15,15 @@ import { useOverShadowStyles } from '@mui-treasury/styles/shadow/over';
 
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
-    root: {
-        margin: '20px',
+    root: props => ({
+        margin: '10px',
         borderRadius: spacing(2), // 16px
         transition: '0.3s',
         boxShadow: '0 0 5px rgba(80, 120, 250, 1)',
         position: 'relative',
         maxWidth: 500,
-        marginLeft: 'auto',
         overflow: 'initial',
-        backgroundColor: 'rgba(220,220,220, 0.9)',
+        backgroundColor: props.backgroundColor,
         color: '#444444',
         display: 'flex',
         flexDirection: 'column',
@@ -34,22 +33,16 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
             flexDirection: 'row',
             paddingTop: spacing(2),
         },
-    },
+    }),
     foo: props => ({
         backgroundColor: props.backgroundColor,
         boxShadow: '0 0 5px rgba(80, 120, 250, 1)',
         width: '88%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: spacing(-1),
         height: 0,
         paddingBottom: '55%',
         borderRadius: spacing(2),
-        position: 'relative',
         [breakpoints.up('md')]: {
             width: '100%',
-            marginLeft: spacing(-4),
-            marginTop: 0,
             transform: 'translateX(-8px)',
         },
         '&:after': {

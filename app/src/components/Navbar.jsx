@@ -9,6 +9,10 @@ import {logout} from "../reducers/user";
 import { Notifications, Menu, ExitToApp } from '@material-ui/icons';
 import EditProfileModal from "./EditProfileModal";
 import NewEventButton from "../components/NewEventButton";
+import Button from "../styles/Button";
+import AddTask from "./AddTask";
+import ButtonModal from "../components/ButtonModal";
+
 
 const Wrapper = styled.div`
   position: fixed;
@@ -40,8 +44,11 @@ const Wrapper = styled.div`
     display: flex;
     position: relative;
     top: 2px;
+    justify-content: flex-start;
   }
-
+  li {
+    margin: 0 15px;
+  }
   li svg {
     margin:0 1.7rem;
     position: relative;
@@ -89,8 +96,11 @@ const Wrapper = styled.div`
 const Navbar = () => {
   const dispatch = useDispatch();
 
-  const [showModal, setShowModal] = useState(false);
-  const closeModal = () => setShowModal(false);
+
+  const [showModalTask, setShowModalTask] = useState(false);
+  const closeModalTask = () => setShowModalTask(false);
+  const [showModalProfile, setShowModalProfile] = useState(false);
+  const closeModalProfile = () => setShowModalProfile(false);
 
   const { data: user } = useSelector((state) => state.user);
   const { sidebar: open } = useSelector((state) => state.sidebar);
@@ -118,11 +128,13 @@ const Navbar = () => {
 
       <Search />
       <ul>
-        {/*<li>
-          <Link to="/new_task">
-            <ControlPoint />
-          </Link>
-        </li>*/}
+        <li>
+                  <Button className="home-header" onClick={() => setShowModalTask(true)}>
+                             ADD TASK
+                  </Button>
+                  {showModalTask && <AddTask closeModal={closeModalTask}/>}
+        </li>
+
         <li>
           <NewEventButton />
         </li>
@@ -135,14 +147,17 @@ const Navbar = () => {
         <li>
 
 
-                   <Avatar className="pointer" src={user.avatar} alt="user-avatar" onClick={() => setShowModal(true)}/>
+                   <Avatar className="pointer" src={user.avatar} alt="user-avatar" onClick={() => setShowModalProfile(true)}/>
+          {showModalProfile && <EditProfileModal closeModal={closeModalProfile}/>}
 
-           {showModal && <EditProfileModal closeModal={closeModal} />}
         </li>
         <li>
           <ExitToApp onClick={handleLogout} />
         </li>
+
+
       </ul>
+
     </Wrapper>
   );
 };

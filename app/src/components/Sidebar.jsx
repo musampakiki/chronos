@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { NavLink } from "react-router-dom";
-import { Home, Today, DateRange, FilterList } from '@material-ui/icons';
+import { Home, Storage, DateRange, FilterList, Colorize } from '@material-ui/icons';
 // import {
 //   HomeIcon,
 // // TrendingIcon,
@@ -93,7 +93,7 @@ const Sidebar = () => {
           <span>Home</span>
         </div>
       </NavLink>
-        <div className="ruler"></div>
+      {/*  <div className="ruler"></div>
       <NavLink
             onClick={handleCloseSidebar}
             to="/#"
@@ -103,8 +103,8 @@ const Sidebar = () => {
                 <Today />
                 <span>Today</span>
             </div>
-      </NavLink>
-      <NavLink
+      </NavLink>*/}
+    {/*  <NavLink
         onClick={handleCloseSidebar}
         to="/test"
         activeClassName=""
@@ -113,7 +113,7 @@ const Sidebar = () => {
           <DateRange />
           <span>Сoming</span>
         </div>
-      </NavLink>
+      </NavLink>*/}
         <div className="ruler"></div>
       {/*<NavLink*/}
       {/*  onClick={handleCloseSidebar}*/}
@@ -132,7 +132,7 @@ const Sidebar = () => {
             activeClassName="active"
         >
             <div className="icon">
-                <DateRange />
+                <Colorize />
                 <span>Colors</span>
             </div>
         </NavLink>
@@ -142,7 +142,7 @@ const Sidebar = () => {
             activeClassName="active"
         >
             <div className="icon">
-                <DateRange />
+                <Storage />
                 <span>Lists</span>
             </div>
         </NavLink>

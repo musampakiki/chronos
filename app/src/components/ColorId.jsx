@@ -16,8 +16,7 @@ import {
     timeSince,
 } from "../utils/index";
 import Button from "../styles/Button";
-
-
+import ColorCard from '../components/ColorCard'
 
 
 
@@ -27,7 +26,6 @@ const Wrapper = styled.div`
   grid-template-columns: 70% 1fr;
   grid-gap: 2rem;
   padding: 1.3rem;
-  padding-bottom: 7rem;
 
   .article-container .article-info {
     margin-top: 1rem;
@@ -40,8 +38,10 @@ const Wrapper = styled.div`
 
   .channel-info-flex {
     display: flex;
+    width: 19rem;
     justify-content: space-between;
     align-items: center;
+    margin-right: 1rem;
   }
 
   .article-info-stats {
@@ -54,7 +54,9 @@ const Wrapper = styled.div`
     position: relative;
     top: -2px;
   }
-
+  .button-group{
+    margin-right: 1rem;
+  }
   .channel-info-flex button {
     font-size: 0.9rem;
   }
@@ -76,6 +78,7 @@ const Wrapper = styled.div`
 
   .related-articles div {
     margin-bottom: 1rem;
+
   }
 
   svg {
@@ -97,7 +100,8 @@ const Wrapper = styled.div`
         fill: ${(props) => props.theme.blue};
       }
     `}
-
+  
+  
 	@media screen and (max-width: 930px) {
     grid-template-columns: 90%;
     .related-articles {
@@ -144,6 +148,7 @@ const ColorId = () => {
         dispatch(getColors());
 
 
+
         return () => {
             dispatch(clearColor());
         };
@@ -168,55 +173,36 @@ const ColorId = () => {
         <Wrapper>
             <div className="article-container">
                 <div className="article-info">
+                        <h2>Color: {color.name} </h2>
                     <div className="article-info-stats">
                         <p>
                             <span>{timeSince(color.createdAt)} ago</span>
                         </p>
-
-                        <div className="likes-dislikes flex-row">
-                            <Link to="/colors">
-                                <Button grey>RETURN</Button>
-                            </Link>
-                        </div>
                     </div>
                 </div>
+                <div >
+                    <Link className="button-group" to="/colors">
+                        <Button grey>RETURN</Button>
+                    </Link>
+                    <Link className="button-group" to={`/colors/${color.id}/edit`} onClick={() => setShowModal(true)}>
+                        <Button grey>EDIT</Button>
+                    </Link>
+                    {showModal && <EditColor closeModal={closeModal} />}
+                    <Link className="button-group" to={`/colors/${color.id}/remove`} onClick={() => setShowModal(true)}>
+                        <Button grey>DELETE</Button>
+                    </Link>
+                    {showModal && <DeleteColor closeModal={closeModal} />}
 
+
+                </div>
                 <div className="channel-info-description">
                     <div className="channel-info-flex">
                         <div className="channel-info flex-row">
-                            <img
-                                className="avatar md"
-                                src={color.User?.avatar}
-                                alt="channel avatar"
-                            />
-
-                            <div className="channel-info-meta">
-                                <h4>
-                                    <Link to={`/channel/${color.userId}`}>
-                                        {color.User?.username}
-                                    </Link>
-                                </h4>
-
-                            </div>
-                            <ColorToCard color={color.hex} />
+                  <ColorCard  color={color}/>
                         </div>
-
                     </div>
-
-                    <h1>{color.hex}</h1>
-                    <p>{color.name}</p>
-
                 </div>
-                <Link to={`/colors/${color.id}/edit`} onClick={() => setShowModal(true)}>
-                    <Edit />
-                </Link>
-                {showModal && <EditColor closeModal={closeModal} />}
-                <Link to={`/colors/${color.id}/remove`} onClick={() => setShowModal(true)}>
-                    <Close />
-                </Link>
-                {showModal && <DeleteColor closeModal={closeModal} />}
             </div>
-
         </Wrapper>
     );
 };

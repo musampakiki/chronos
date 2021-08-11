@@ -1,8 +1,9 @@
 const { Op } = require("sequelize");
-const { User, Subscription, Task } = require("../sequelize");
+const { User } = require("../sequelize");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("../middlewares/asyncHandler");
+// const {use} = require("express/lib/router");
 
 exports.signup = asyncHandler(async (req, res, next) => {
   const user = await User.create(req.body);
@@ -59,21 +60,22 @@ exports.me = async (req, res) => {
     ],
   });
 
-  // const subscriptions = await Subscription.findAll({
-  //   where: { subscriber: req.user.id },
+  // const users = await User.findAll({
+  //   where: { user: req.user.id },
   // });
 
-  // const userIds = subscriptions.map((sub) => sub.subscribeTo);
 
-  // const channels = await User.findAll({
-  //   attributes: ["id", "avatar", "username"],
-  //   where: {
-  //     id: {
-  //       [Op.in]: userIds,
-  //     },
-  //   },
-  // });
-  //
+ /* const userIds = users.map((user) => user.username);
+
+const channels = await User.findAll({
+    attributes: ["id", "avatar", "username"],
+    where: {
+      id: {
+        [Op.in]: userIds,
+      },
+    },
+  });*/
+
   // user.setDataValue("channels", channels);
 
   res.status(200).json({ success: true, data: user });

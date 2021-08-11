@@ -1,12 +1,10 @@
-import React  from 'react';
-// import { useDispatch} from "react-redux";
-// import moment from "moment";
-import Calendar from "../components/Calendar";
-// import NewEventButton from "../components/NewEventButton";
-// import {CalendarBar} from "../components/CalendarBar";
-// import {CalendarGrid} from "../components/CalendarDark";
+import React, {useEffect} from 'react';
 import styled from "styled-components";
-// import {getTasks} from "../reducers/tasksReducer";
+
+import {useDispatch, useSelector} from "react-redux";
+import {getTasks} from "../reducers/tasksReducer";
+import Calendar from "../components/Calendar";
+
 
 
 export const StyledHome = styled.div`
@@ -44,7 +42,6 @@ export const StyledHome = styled.div`
 const ShadowWrapper = styled('div')`
   overflow:hidden;
 `;
-
 const StyleCalendar = styled('div')`
   * {
     margin: 0;
@@ -73,7 +70,7 @@ const StyleCalendar = styled('div')`
   }
 
   a {
-    color: #000;
+    color: #444444;
     text-decoration: none;
   }
 
@@ -86,12 +83,12 @@ const StyleCalendar = styled('div')`
   }
 
   .text-shadow {
-    text-shadow: 2px 2px 4px #000000;
+    text-shadow: 2px 2px 4px #444444;
   }
 
   .box-shadow {
-    -webkit-box-shadow: 2px 2px 5px #000;
-    box-shadow: 2px 2px 5px #000;
+    -webkit-box-shadow: 2px 2px 5px #444444;
+    box-shadow: 2px 2px 5px #444444;
   }
 
   .navbar {
@@ -112,11 +109,11 @@ const StyleCalendar = styled('div')`
   .navbar .logo span {
     //font-family: "Merienda", cursive;
     font-size: 1.8rem;
-    color: #ececec;
+    color: #999999;
   }
 
   .navbar .logo p {
-    color: #755c8a;
+    color: rgba(80, 120, 250, 1);
   }
 
   .navbar .logo a {
@@ -125,11 +122,11 @@ const StyleCalendar = styled('div')`
   }
 
   .navbar .button-group button {
-    background-color: #755c8a;
+    background-color: rgba(80, 120, 250, 1);
     border: none;
     font-size: 1.2rem;
     padding: 0.4rem;
-    color: #ececec;
+    color: #999999;
     -webkit-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
     margin-right: 1rem;
@@ -140,8 +137,8 @@ const StyleCalendar = styled('div')`
   }
 
   .navbar .button-group button:hover {
-    background-color: #ececec;
-    color: #755c8a;
+    background-color: rgba(220, 220, 220, 0.9);
+    color: rgba(80, 120, 250, 1);
   }
 
   .calendar {
@@ -150,7 +147,7 @@ const StyleCalendar = styled('div')`
 
   .calendar .title {
     color: #fff;
-    background-color: #141518;
+    background-color: #020202;
     padding: 0.3rem;
     font-size: 1.5rem;
     position: relative;
@@ -160,13 +157,13 @@ const StyleCalendar = styled('div')`
     font-size: 1.5rem;
     background: none;
     border: none;
-    color: #ececec;
+    color: #999999;
     -webkit-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
   }
 
   .calendar .title button:hover {
-    color: #000;
+    color: #444444;
   }
 
   .calendar .title .edit-date-btn {
@@ -175,7 +172,7 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .title .edit-date-btn.toggled {
-    color: #7c1d1d;
+    color: #cc0000;
     -webkit-transform: rotateZ(180deg);
     transform: rotateZ(180deg);
     -webkit-transition: 0.3s ease-in-out;
@@ -186,7 +183,7 @@ const StyleCalendar = styled('div')`
     background: none;
     border: none;
     font-size: 2rem;
-    color: #ececec;
+    color: #999999;
     position: absolute;
     top: calc(50% - 1rem);
     -webkit-transition: 0.3s ease-in-out;
@@ -194,7 +191,7 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .title .buttons button:hover {
-    color: #000;
+    color: #444444;
   }
 
   .calendar .title .buttons .prev-btn {
@@ -206,7 +203,7 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .title .dropdown-jump {
-    background-color: #41334d;
+    background-color: rgba(80, 120, 250, 1);
     width: 100%;
     padding: 1rem 0;
     display: none;
@@ -228,7 +225,7 @@ const StyleCalendar = styled('div')`
     width: 150px;
     height: 2rem;
     font-size: 1.2rem;
-    background-color: #ececec;
+    background-color: #999999;
     border: none;
     text-align: center;
     margin-right: 0.5rem;
@@ -236,11 +233,11 @@ const StyleCalendar = styled('div')`
 
   .calendar .title .dropdown-jump button {
     margin-right: 0;
-    background-color: #000;
+    background-color: #444444;
   }
 
   .calendar .title .dropdown-jump button:hover {
-    color: #ececec;
+    color: #999999;
   }
 
   .calendar .title .dropdown-jump.toggled {
@@ -271,10 +268,10 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .calendar-table .tbody .day {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: #020202;
     border: none;
-    color: #ececec;
-    height: 70px;
+    color: #fff;
+    height: 90px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -291,8 +288,9 @@ const StyleCalendar = styled('div')`
 
   .calendar .calendar-table .tbody .day div {
     position: absolute;
-    top: 0;
+    left: 0;
     right: 0;
+    width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -300,80 +298,68 @@ const StyleCalendar = styled('div')`
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    margin: 0.2rem;
+    margin-top: 2px;
   }
 
   .calendar .calendar-table .tbody .day div span {
     font-size: 0.8rem;
-    margin-bottom: 0.2rem;
   }
 
 
-  .calendar .calendar-table .tbody .day div span i.Ivan {
+  .calendar .calendar-table .tbody .day div span i.Birthday {
     color: #18a5af;
   }
 
-  .calendar .calendar-table .tbody .day div span div.Ivan {
+  .calendar .calendar-table .tbody .day div span div.Birthday {
     color: #acf3f8;
     background: linear-gradient(#e76202, #532401);
-    margin-top: 2rem;
-    width: 125px;
-    padding: 3px;
-    margin-right: 0;
+    margin-top: 50px;
   }
 
-  .calendar .calendar-table .tbody .day div span i.Julia {
+  .calendar .calendar-table .tbody .day div span i.Conference {
     color: #4dad27;
   }
 
-  .calendar .calendar-table .tbody .day div span div.Julia {
+  .calendar .calendar-table .tbody .day div span div.Conference {
     color: #c9ff06;
     background: linear-gradient(#57a702, #2b5301);
-    margin-top: 2rem;
-    width: 125px;
-    padding: 3px;
-    margin-right: 0;
+    margin-top: 50px;
+
   }
 
-  .calendar .calendar-table .tbody .day div span i.Dan {
+  .calendar .calendar-table .tbody .day div span i.Meeting {
     color: #962828;
   }
 
-  .calendar .calendar-table .tbody .day div span div.Dan {
+  .calendar .calendar-table .tbody .day div span div.Meeting {
     color: #ffffff;
     background: linear-gradient(#ff006a, #2b0113);
-    margin-top: 2rem;
-    width: 125px;
-    padding: 3px;
-    margin-right: 0;
+    margin-top: 50px;
+
   }
 
-  .calendar .calendar-table .tbody .day div span i.Michael {
+  .calendar .calendar-table .tbody .day div span i.Meet {
     color: #e28d1d;
   }
 
-  .calendar .calendar-table .tbody .day div span div.Michael {
+  .calendar .calendar-table .tbody .day div span div.Meet {
     color: #e28d1d;
     background: linear-gradient(#1900ff, #06012f);
-    margin-top: 2rem;
-    width: 125px;
-    padding: 3px;
-    margin-right: 0;
+    margin-top: 50px;
+
   }
 
   .calendar .calendar-table .tbody .day div span div.task {
     color: #ffffff;
     background: linear-gradient(#025327, #00180a);
-    margin-top: 2rem;
-    width: 125px;
-    padding: 3px;
-    margin-right: 0;
+    margin-top: 30px;
+
   }
 
 
   .calendar .calendar-table .tbody .day:hover {
-    background-color: rgba(236, 236, 236, 0.6);
-    color: #000;
+    background-color: rgba(220, 220, 220, 0.9);
+    color: #444444;
   }
 
   .calendar .calendar-table .tbody .day.hidden {
@@ -381,7 +367,7 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .calendar-table .tbody .day.current-day {
-    background-color: rgb(47, 47, 47);
+    background-color: #121212;
   }
 
   .calendar .sidebar__close-btn {
@@ -393,7 +379,7 @@ const StyleCalendar = styled('div')`
     font-size: 2rem;
     background: none;
     border: none;
-    color: #755c8a;
+    color: #444444;
     z-index: 1;
   }
 
@@ -419,7 +405,7 @@ const StyleCalendar = styled('div')`
     overflow-y: scroll;
     -webkit-transition: 0.2s ease-in-out;
     transition: 0.2s ease-in-out;
-    background-color: #ececec;
+    background-color: rgba(220, 220, 220, 1);
   }
 
   .calendar .detail-sidebar .detail-sidebar__date {
@@ -427,7 +413,7 @@ const StyleCalendar = styled('div')`
     font-weight: bold;
     margin: 1rem 0 2rem 0;
     position: relative;
-    color: #755c8a;
+    color: rgba(80, 120, 250, 1);
   }
 
   //centre day event
@@ -439,12 +425,12 @@ const StyleCalendar = styled('div')`
     width: 100%;
     height: 4px;
     //background-color: #755c8a;
-    background-color: red;
+    background-color: #cc0000;
   }
 
   .calendar .detail-sidebar .detail-sidebar__events {
-    color: #ececec;
-    margin-bottom: 2rem;
+    color: #444444;
+    margin: 1rem;
   }
 
   .calendar .detail-sidebar .detail-sidebar__events button {
@@ -455,23 +441,26 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .detail-sidebar .detail-sidebar__events .delete-event-btn {
-    color: #812b2b;
+    color: #cc0000;
     margin-left: 1rem;
   }
 
   .calendar .detail-sidebar .detail-sidebar__events .edit-event-btn {
-    color: #495ea3;
+    color: #444444;
   }
 
   .calendar .detail-sidebar .detail-sidebar__events li {
-    height: 70px;
     overflow: hidden;
     padding: 1rem;
     font-size: 1.3rem;
-    color: #000;
+    color: #444444;
     transition: height 0.5s;
   }
-
+  .calendar .detail-sidebar .detail-sidebar__events li span{
+    margin:0 1rem;
+    ma
+  }
+  
   .active {
     height: 200px !important;
   }
@@ -485,7 +474,7 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .detail-sidebar .detail-sidebar__events li:nth-child(even) {
-    background-color: #a0a0a0;
+    background-color: rgba(220, 220, 220, 0.9);
   }
 
   .calendar .detail-sidebar .detail-sidebar__link {
@@ -499,7 +488,7 @@ const StyleCalendar = styled('div')`
   }
 
   .calendar .detail-sidebar .detail-sidebar__link:hover {
-    color: #755c8a;
+    color: #444444;
   }
 
   .calendar .detail-sidebar.toggled {
@@ -512,13 +501,12 @@ const StyleCalendar = styled('div')`
     position: absolute;
     left: -100%;
     width: 40%;
-    height: 100vh;
+    height: 90vh;
     padding-left: 1rem;
     background-size: cover;
-    overflow-y: scroll;
     -webkit-transition: 0.5s ease-in-out;
     transition: 0.5s ease-in-out;
-    background-color: #ececec;
+    background-color: rgba(56,52,51, 1);
   }
 
   .calendar .new-event-sidebar .new-event-sidebar__title {
@@ -526,7 +514,7 @@ const StyleCalendar = styled('div')`
     font-weight: bold;
     margin: 1rem 0 2rem 0;
     position: relative;
-    color: #755c8a;
+    color: #fff;
   }
 
   .calendar .new-event-sidebar .new-event-sidebar__title::before {
@@ -536,13 +524,13 @@ const StyleCalendar = styled('div')`
     left: 0;
     width: 100%;
     height: 4px;
-    background-color: #755c8a;
+    background-color: rgba(204,0,0, 1);
   }
 
   .calendar .new-event-sidebar label {
     font-weight: bold;
     margin-left: 1rem;
-    color: #755c8a;
+    color: #fff;
   }
 
   .calendar .new-event-sidebar .new-event-sidebar__description,
@@ -554,19 +542,21 @@ const StyleCalendar = styled('div')`
     font-size: 1.3rem;
     margin: 0.5rem 1rem;
     padding: 0.5rem 0;
-    color: #000;
-    border: 2px solid #755c8a;
+    color: #fff;
+    border: 2px solid rgba(18,18,18, 1);
     -webkit-box-sizing: border-box;
+    background-color: rgba(18,18,18, 1);
     box-sizing: border-box;
+    z-index: 999999;
   }
 
   .calendar .new-event-sidebar .new-event-sidebar__add-btn {
-    background-color: #755c8a;
-    color: #ececec;
+    background-color: #cc0000;
+    color: #fff;
   }
 
   .calendar .new-event-sidebar .new-event-sidebar__add-btn:hover {
-    background-color: #4e3d5c;
+    background-color: rgba(80, 120, 250, 1);
     -webkit-transition: 0.3s;
     transition: 0.3s;
   }
@@ -659,27 +649,33 @@ const StyleCalendar = styled('div')`
 
 
 function Home() {
+    const dispatch = useDispatch();
+    const { isFetching, tasks } = useSelector((state) => state.tasksReducer);
+
+        useEffect(() => {
+            dispatch(getTasks());
+        }, [dispatch, tasks]);
+
+    if (isFetching) {
+        return (<h2>Load...</h2>)
+    }
+    if (!isFetching) {
+        return (
+            <StyledHome>
+                <ShadowWrapper>
 
 
+                    <StyleCalendar>
+
+                        <div className="container">
+                            <Calendar />
+                        </div>
+                    </StyleCalendar>
 
 
-
-    return (
-        <StyledHome>
-            <ShadowWrapper>
-
-
-                <StyleCalendar>
-
-                    <div className="container">
-                        <Calendar />
-                    </div>
-                </StyleCalendar>
-
-
-            </ShadowWrapper>
-        </StyledHome>
-    );
+                </ShadowWrapper>
+            </StyledHome>
+        );
+    }
 }
-
 export default Home;

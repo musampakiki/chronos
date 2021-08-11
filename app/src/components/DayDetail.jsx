@@ -5,6 +5,7 @@ import { deleteEventDispatch } from "../actions/actionCreatorsDispatch";
 import NewEventButton from "./NewEventButton";
 import { editEventSidebarObj, setDayDetailObj, toggleDetailSidebarObj, toggleNewEventSidebarObj } from "../actions/actionCreatorsObj";
 import moment from 'moment';
+import Button from "../styles/Button";
 // import {getTasks} from "../reducers/tasksReducer";
 
 
@@ -57,7 +58,15 @@ const DayDetail = () => {
             className="event-item"
             onClick={(e) => fullEvent(e.target)}
             key={event.id + event.name}>
-            {event.eventName}
+            <p><span className="text-bold">{event.participants}</span>: {event.eventName}</p>
+            <p>
+              <span className="text-bold">Date: </span>
+              {event.date}
+           </p>
+
+            <p><span className="text-bold">Time: </span>{event.time}</p>
+            <p><span className="text-bold">Description: </span>{event.description}</p>
+
 
             <button
               className="delete-event-btn"
@@ -80,18 +89,17 @@ const DayDetail = () => {
               }}
             >
               <Edit />
-
             </button>
-            <p className="event-date"><span className="text-bold">Date: </span>{event.date}</p>
-            <p className="event-time"><span className="text-bold">Time: </span>{event.time}</p>
-            <p className="event-eventName"><span className="text-bold">Event Name: </span> {event.eventName}</p>
-            <p className="event-participants"><span className="text-bold">Performer: </span>{event.participants}</p>
-            <p className="event-description"><span className="text-bold">Description: </span>{event.description}</p>
-          </li>
-        ))}
-      </ul>
 
-      <NewEventButton date={dayDetail.today} />
+          </li>
+
+        ))}
+
+          </ul>
+
+      <div>
+        <NewEventButton date={dayDetail.today} />
+      </div>
     </div>
   );
 };

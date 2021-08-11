@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledHome } from "../pages/HomeDark";
+import { StyledHome } from "../pages/Home";
 import ArticleGrid from "../styles/ArticleGrid";
 import { SkeletonLine, ArticleCardSkeleton } from "../styles/Skeleton";
 

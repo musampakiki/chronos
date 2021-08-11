@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
-import {Close, Edit} from "@material-ui/icons";
+// import {Close, Edit} from "@material-ui/icons";
 import NoResults from "../components/NoResults";
 import Skeleton from "../skeletons/HomeSkeleton";
 import EditTask from "./EditTask"
 import DeleteTask from "./RemoveTask"
-
+import TaskCard from "./TaskCard"
 
 import { clearTask, getTask,} from "../reducers/taskReducer";
 import { getTasks } from "../reducers/tasksReducer";
@@ -22,11 +22,12 @@ import Button from "../styles/Button";
 
 
 
+
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 70% 1fr;
   grid-gap: 2rem;
-  padding: 7rem 1.3rem;
+  padding: 1rem 1.3rem;
   
   .article-container .article-info {
     margin-top: 1rem;
@@ -36,7 +37,9 @@ const Wrapper = styled.div`
   .article-info span {
     color: ${(props) => props.theme.secondaryColor};
   }
-
+  .button-group {
+    margin-right: 1rem;
+  }
   .channel-info-flex {
     display: flex;
     justify-content: space-between;
@@ -149,60 +152,35 @@ const TaskId = () => {
         <Wrapper>
             <div className="article-container">
                 <div className="article-info">
+                    <h2>Task: {task.title} </h2>
                     <div className="article-info-stats">
                         <p>
                             <span>{timeSince(task.createdAt)} ago</span>
                         </p>
-
-                        <div className="likes-dislikes flex-row">
-                            <Link to="/tasks">
-                                <Button grey>RETURN</Button>
-                            </Link>
-                        </div>
                     </div>
                 </div>
+                <div >
+                    <Link className="button-group" to="/tasks">
+                        <Button grey>RETURN</Button>
+                    </Link>
+                    <Link className="button-group" to={`/tasks/${task.id}/edit`} onClick={() => setShowModal(true)}>
+                        <Button grey>EDIT</Button>
+                    </Link>
+                    {showModal && <EditTask closeModal={closeModal} />}
+                    <Link className="button-group" to={`/tasks/${task.id}/remove`} onClick={() => setShowModal(true)}>
+                        <Button grey>DELETE</Button>
+                    </Link>
+                    {showModal && <DeleteTask closeModal={closeModal} />}
 
+
+                </div>
                 <div className="channel-info-description">
                     <div className="channel-info-flex">
                         <div className="channel-info flex-row">
-                            {/*<img*/}
-                            {/*    className="avatar md"*/}
-                            {/*    src={task.User?.avatar}*/}
-                            {/*    alt="channel avatar"*/}
-                            {/*/>*/}
-
-                            <div className="channel-info-meta">
-                                <h4>
-                                    <Link to={`/channel/${task.userId}`}>
-                                        {task.User?.username}
-                                    </Link>
-                                </h4>
-
-                            </div>
-
-
-                            <ColorToCard color={task.title} />
+                            <TaskCard  task={task}/>
                         </div>
-
                     </div>
-
-                    <h1>{task.title}</h1>
-                    <p>description: {task.description}</p>
-                    <p>text: {task.text}</p>
-                    <p>completed: {task.completed}</p>
-                    <p>data start: {task.dataCreated}</p>
-                    <p>data end: {task.dataEnd}</p>
-                    <p>list: {task.listId}</p>
-
                 </div>
-                <Link to={`/tasks/${task.id}/edit`} onClick={() => setShowModal(true)}>
-                    <Edit />
-                </Link>
-                {showModal && <EditTask closeModal={closeModal} />}
-                <Link to={`/tasks/${task.id}/remove`} onClick={() => setShowModal(true)}>
-                    <Close />
-                </Link>
-                {showModal && <DeleteTask closeModal={closeModal} />}
             </div>
 
         </Wrapper>

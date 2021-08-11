@@ -13,16 +13,16 @@ export const StyledHome = styled.div`
   padding: 1.3rem;
   width: 90%;
   margin: 0 auto;
-  padding-bottom: 7rem;
+  
   h2 {
     margin-bottom: 1rem;
   }
   .home-header{
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
   }
   .item-header{
-  margin:30px;
+    margin:30px;
   }
   @media screen and (max-width: 1093px) {
     width: 95%;
@@ -64,9 +64,10 @@ const Colors = () => {
 
     return (
         <StyledHome>
-            <VideoGrid>
-            <h2>Colors</h2>
-            <Link to="/">
+            <div className="home-header">
+
+            <h2 className="item-header">Colors</h2>
+            <Link className="item-header" to="/">
                 <Button grey>RETURN</Button>
             </Link>
             <Link to="/colors/add-color">
@@ -74,6 +75,8 @@ const Colors = () => {
                     ADD COLOR
                 </Button>
             </Link>
+            </div>
+            <VideoGrid>
             {!isFetching &&
             colors.map((color) => (
                 <Link key={color.id} to={`/colors/${color.id}`}>

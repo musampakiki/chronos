@@ -37,8 +37,8 @@ const useStyles = makeStyles(({ spacing }) => ({
         marginTop: spacing(1),
         height: '100px',
         borderRadius: '50px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        marginLeft: 50,
+        marginRight: 50,
         marginBottom: spacing(2),
     }),
     avatar: {
@@ -94,7 +94,7 @@ const ColorCard = ({ color }) => {
     // const Date = list.createdAt
 
     return (
-
+<>
         <Card className={cx(styles.root, shadowStyles.root)}>
 
                 <TextInfoContent
@@ -107,7 +107,7 @@ const ColorCard = ({ color }) => {
                     <div className={`${classes.foo}`} />
 
         </Card>
-
+</>
     );
 };
 
