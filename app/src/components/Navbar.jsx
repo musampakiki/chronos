@@ -11,7 +11,7 @@ import EditProfileModal from "./EditProfileModal";
 import NewEventButton from "../components/NewEventButton";
 import Button from "../styles/Button";
 import AddTask from "./AddTask";
-import ButtonModal from "../components/ButtonModal";
+
 
 
 const Wrapper = styled.div`
